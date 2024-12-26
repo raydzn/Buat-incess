@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Romantis untuk Sharin ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom, #ff9a9e, #fad0c4, #fbc2eb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        #envelope {
+            margin: 150px;
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: #f9c5c8;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        #envelope:hover {
+            transform: scale(1.05) rotate(-3deg);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #envelope::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #f9c5c8;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .letter {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 280px;
+            max-height: 220px;
+            background: #fff;
+            border-radius: 10px;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 3;
+            overflow-y: auto;
+            animation: fadeIn 1s forwards;
+        }
+
+        .letter h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            color: #e63946;
+        }
+
+        .letter p {
+            font-size: 14px;
+            color: #333;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .signature {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .close-btn {
+            margin-top: 15px;
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff4d6d;
+            animation: floatUp 4s ease-in-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-300px) scale(1.5); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(-10px); }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffc0cb;
+            opacity: 0.8;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(400px) rotate(360deg); opacity: 0; }
+        }
+
+        .heart-container, .confetti-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Amplop -->
+    <div id="envelope" onclick="openEnvelope()">
+        <div class="letter">
+            <h1>Haloo Incess Sharin ❤️</h1>
+            <p>Seneng banget bisa kenal sama kamu, walaupun perkenalan kita cuma sebentar tapi aku udah naruh kamu di hati aku dan udah nganggep kamu sebagai orang spesial :)</p>
+            <p>Walaupun kamu suka lama dan kadang engga bales kalo chat, tapi notif dari kamu selalu yang aku tunggu hehe...</p>
+            <p>Semoga tahun ini membawa banyak kebahagiaan untukmu 🌟</p>
+            <p>Jangan lupa selalu jaga kesehatan dan tetap jadi Sharin yang ceria yaa 😊</p>
+            <div class="signature">- r -</div>
+            <button class="close-btn" onclick="closeEnvelope(event)">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Kontainer Hati dan Confetti -->
+    <div class="heart-container" id="heart-container"></div>
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <!-- Musik Latar -->
+    <audio id="background-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        function openEnvelope() {
+            document.querySelector('.letter').style.display = 'block';
+            releaseHearts();
+            releaseConfetti();
+            playMusic();
+        }
+
+        function closeEnvelope(event) {
+            event.stopPropagation();
+            document.querySelector('.letter').style.display = 'none';
+        }
+
+        function releaseHearts() {
+            const container = document.getElementById('heart-container');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+                container.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 4000); // Remove heart after animation ends
+            }
+        }
+
+        function releaseConfetti() {
+            const container = document.getElementById('confetti-container');
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDelay = Math.random() * 1 + 's';
+                container.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 3000); // Remove confetti after animation ends
+            }
+        }
+
+        function getRandomColor() {
+            const colors = ['#ff9a9e', '#fad0c4', '#fbc2eb', '#ffc0cb', '#ff4d6d'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function playMusic() {
+            const music = document.getElementById('background-music');
+            music.play();
+        }
+    </script>
+</body>
+</html>
